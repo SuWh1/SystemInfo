@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Information</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            background: linear-gradient(to right, #4caf50, #9c27b0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+        .system-info {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        
+        .system-info p {
+            font-size: 18px;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+        button {
+            margin-top: 15px;
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #7F00FF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #6A00CC;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>System Information</h1>
+        <form method="GET" action="/systeminfo">
+            <button type="submit">Update Given Info</button>
+        </form>
+
+        <div class="system-info">
+            <h2>Operating System Information</h2>
+            <p><strong>Operating System:</strong> {{.OS}}</p>
+            <p><strong>Architecture:</strong> {{.Architecture}}</p>
+            <p><strong>Hostname:</strong> {{.Hostname}}</p>
+        </div>
+    
+        <div class="system-info">
+            <h2>CPU Information</h2>
+            <p><strong>Number of CPUs:</strong> {{.NumCPU}}</p>
+            <p><strong>CPU Model:</strong> {{.CPU.ModelName}}</p>
+            <p><strong>CPU Cores:</strong> {{.CPU.Cores}}</p>
+            <p><strong>CPU Usage:</strong> {{printf "%.3f" .CPU.Usage}}%</p>
+        </div>
+    
+        <div class="system-info">
+            <h2>Memory Information</h2>
+            <p><strong>Total Memory:</strong> {{.Memory.Total}} MB</p>
+            <p><strong>Free Memory:</strong> {{.Memory.Free}} MB</p>
+            <p><strong>Used Memory:</strong> {{.Memory.Used}} MB</p>
+            <p><strong>Memory Used Percent:</strong> {{printf "%.3f" .Memory.UsedPercent}}%</p>
+        </div>
+    
+        <div class="system-info">
+            <h2>Disk Information</h2>
+            <p><strong>Total Disk Space:</strong> {{.Disk.Total}} GB</p>
+            <p><strong>Free Disk Space:</strong> {{.Disk.Free}} GB</p>
+            <p><strong>Used Disk Space:</strong> {{.Disk.Used}} GB</p>
+            <p><strong>Disk Usage Percent:</strong> {{printf "%.3f" .Disk.UsedPercent}}%</p>
+        </div>
+
+        <div class="system-info">
+            <h2>GPU Information</h2>
+            {{if .GPU}}
+                {{range .GPU}}
+                <p>{{.}}</p>
+                {{end}}
+            {{else}}
+                <p>No GPU information found.</p>
+            {{end}}
+        </div>
+    </div>
+</body>
+</html>
